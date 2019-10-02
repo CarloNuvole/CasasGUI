@@ -1,7 +1,7 @@
 # CASAS GUI
 Thesis project.
 
-![Image description](https://scontent-fco1-1.xx.fbcdn.net/v/t1.15752-9/s2048x2048/71591951_471759277014124_601849601070202880_n.png?_nc_cat=107&_nc_oc=AQn7jTuFk0qjfySoiHn7m504tbtUUvaV_RoXHnl91lYHvgGkCEx-QrkUSFhoE-ioTyA&_nc_ht=scontent-fco1-1.xx&oh=f4617578777aa8315883ecb881fbdcbd&oe=5DEFCE7B)
+![CASAS GUI](https://scontent-mxp1-1.xx.fbcdn.net/v/t1.15752-9/s2048x2048/71823942_703495783484635_5314052066270773248_n.png?_nc_cat=111&_nc_oc=AQl5imN3jdPcL5CfHVrerbY6qo98NoT71e_mAWeoNY_1TDtpfKqu0HAhOH-PrqiH99c&_nc_ht=scontent-mxp1-1.xx&oh=ec468d123c2f704da50aabfc1e8f0c05&oe=5DF3A9B8)
 
 # **Before starting**
 This project uses Python3 with the following libreries, be sure to have them before running:
@@ -49,3 +49,5 @@ Using GUI, you can:
 - Increase or decrease velocity (up to 1000x and down to 0.25x) _Velocity toolbar option_
 - Choose if you want a real-time (based on time difference between records) or automatic (code-based) tracking _Velocity time toolbar option_
 
+Lines represent a movement from sensor A to sensor B (with an arrow indicating the direction)
+Circles represent a loop (from sensor A to sensor A)
