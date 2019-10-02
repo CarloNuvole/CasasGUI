@@ -28,7 +28,7 @@ These problems **do not affect functionality**, but only GUI.
 
 2) Extract files in any folder you want.
  
-3) In the same folder of the project, create a new folder called _dataset_ and insert all files in _data_ folder of CASAS dataset you downloaded
+3) In the same folder of the project, create a new folder called _dataset_ and insert all files in _data_ folder of CASAS dataset you downloaded previously.
 
 4) Run **cleanDatabase.py** to set the dataset in order to be used in this project. _python cleanDatabase.py_
 
