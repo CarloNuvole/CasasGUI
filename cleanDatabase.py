@@ -23,6 +23,7 @@ for elem in range(0,401):
 
         if l <= 1:
             print("Patient #" + c + " data are missing. File will be removed")
+            file.close()
             os.remove(file_path)
         else:
             list = []
