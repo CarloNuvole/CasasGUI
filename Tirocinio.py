@@ -569,7 +569,7 @@ def setPosition(window, dataset, pos, tempo):
     window.lastRead = sensor + " " + sensorData
 
     triggeredSensor = False
-    '''GESTIONE DELLA STAMPA DEL PERCORSO '''
+    
     if (sensor[0] == "M" or sensor[0] == "I" or sensor[0] == "D") and (sensorData == "ON" or sensorData == "OPEN" or sensorData == "PRESENT") and getCoordinate(sensor) is not None:
         triggeredSensor = True
 
