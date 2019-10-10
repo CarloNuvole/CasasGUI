@@ -139,23 +139,23 @@ class App(object):
         # Menubar
         menuBar = Menu(self.root)
         self.root.config(menu=menuBar)
-        chooseVelocity = Menu(menuBar, tearoff=0)
-        setVelocityTime = Menu(menuBar, tearoff=1)
+        chooseSpeed = Menu(menuBar, tearoff=0)
+        chooseSpeedFlow = Menu(menuBar, tearoff=1)
 
-        chooseVelocity.add_command(label="0.25x", command=lambda: setVelocity(4, self))
-        chooseVelocity.add_command(label="0.5x", command=lambda: setVelocity(2, self))
-        chooseVelocity.add_command(label="1x", command=lambda: setVelocity(1, self))
-        chooseVelocity.add_command(label="2x", command=lambda: setVelocity(0.5, self))
-        chooseVelocity.add_command(label="4x", command=lambda: setVelocity(0.25, self))
-        chooseVelocity.add_command(label="10x", command=lambda: setVelocity(0.10, self))
-        chooseVelocity.add_command(label="50x", command=lambda: setVelocity(0.02, self))
-        chooseVelocity.add_command(label="250x", command=lambda: setVelocity(0.004, self))
-        chooseVelocity.add_command(label="1000x", command=lambda: setVelocity(0.001, self))
-        menuBar.add_cascade(label="Velocity", menu=chooseVelocity)
+        chooseSpeed.add_command(label="0.25x", command=lambda: setSpeed(4, self))
+        chooseSpeed.add_command(label="0.5x", command=lambda: setSpeed(2, self))
+        chooseSpeed.add_command(label="1x", command=lambda: setSpeed(1, self))
+        chooseSpeed.add_command(label="2x", command=lambda: setSpeed(0.5, self))
+        chooseSpeed.add_command(label="4x", command=lambda: setSpeed(0.25, self))
+        chooseSpeed.add_command(label="10x", command=lambda: setSpeed(0.10, self))
+        chooseSpeed.add_command(label="50x", command=lambda: setSpeed(0.02, self))
+        chooseSpeed.add_command(label="250x", command=lambda: setSpeed(0.004, self))
+        chooseSpeed.add_command(label="1000x", command=lambda: setSpeed(0.001, self))
+        menuBar.add_cascade(label="Speed", menu=chooseSpeed)
 
-        setVelocityTime.add_command(label="Real", command=lambda: setVelocityTime(True, window))
-        setVelocityTime.add_command(label="Automatic", command=lambda: setVelocityTime(False, window))
-        menuBar.add_cascade(label="Velocity time", menu=setVelocityTime)
+        chooseSpeedFlow.add_command(label="Real", command=lambda: setSpeedFlow(True, window))
+        chooseSpeedFlow.add_command(label="Automatic", command=lambda: setSpeedFlow(False, window))
+        menuBar.add_cascade(label="Speed flow", menu=chooseSpeedFlow)
 
         self.canvas.create_line(0,790,985,790, fill='grey', width=2)
         self.canvas.create_image(0,0,image=self.backgnd,anchor="nw")
@@ -569,7 +569,7 @@ def setPosition(window, dataset, pos, tempo):
     window.lastRead = sensor + " " + sensorData
 
     triggeredSensor = False
-    
+    '''GESTIONE DELLA STAMPA DEL PERCORSO '''
     if (sensor[0] == "M" or sensor[0] == "I" or sensor[0] == "D") and (sensorData == "ON" or sensorData == "OPEN" or sensorData == "PRESENT") and getCoordinate(sensor) is not None:
         triggeredSensor = True
 
@@ -695,10 +695,10 @@ def setPosition(window, dataset, pos, tempo):
         window.root.after(0, deleteElements(window, text, None, time, None, triggeredSensor))
     #endregion
 
-def setVelocity(val, obj):
+def setSpeed(val, obj):
     obj.velocity = val
 
-def setVelocityTime (val, obj):
+def setSpeedFlow (val, obj):
     obj.playState = val
 
 def setPause (obj):
