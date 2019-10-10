@@ -18,7 +18,7 @@ _If you are using different screen resolution you may lose some information and/
 
 This project was written and tested using **Python 3**, be sure to have it installed before execution. Python 2 may be incompatible with some libreries.
 
-The project was **written and tested using Mac OS.** _(Mac OS 10.14 Mojave)
+The project was **written and tested using Mac OS.** _(Mac OS 10.14 Mojave)_
 If you are running **Windows** or **Ubuntu** (or other), you may encounter some graphical problems due to _tkinter_, such as un-aligned buttons or strange fonts.
 These problems **do not affect functionality**, but only GUI.
 
