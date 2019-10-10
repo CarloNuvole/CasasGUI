@@ -46,8 +46,8 @@ Using GUI, you can:
 - Be noticed by pop-up window or disable any notification about activity detection
 - Pause the tracking and restart (you can restart only pausing tracking)
 - Move a slidebar to a desidered position of the dataset
-- Increase or decrease velocity (up to 1000x and down to 0.25x) _Velocity toolbar option_
-- Choose if you want a real-time (based on time difference between records) or automatic (code-based) tracking _Velocity time toolbar option_
+- Increase or decrease velocity (up to 1000x and down to 0.25x) _Speed toolbar option_
+- Choose if you want a real-time (based on time difference between records) or automatic (code-based) tracking _Speed flow toolbar option_
 
 Lines represent a movement from sensor A to sensor B (with an arrow indicating the direction)
 Circles represent a loop (from sensor A to sensor A)
