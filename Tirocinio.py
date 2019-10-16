@@ -136,7 +136,7 @@ class App(object):
 
         self.preferencesLabel = Label (self.root, text="Visualization preferences",  font=("Purisa", 18, 'bold'),
                                   anchor=W)
-        self.preferencesLabel.grid(row=0, column=0, sticky=NE, padx=135)
+        self.preferencesLabel.grid(row=0, column=0, sticky=NE, padx=138)
 
         # Variables
         self.traces = []
