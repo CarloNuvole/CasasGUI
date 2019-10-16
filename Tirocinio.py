@@ -7,14 +7,15 @@ import os
 from Timestamp import Timestamp
 from activityList import *
 
+
 class App(object):
     def __init__(self, title, dim, lastFilter, lastNotification, lastContinue):
         self.root = Tk()
         self.root.title(title)
-        self.canvas = Canvas(self.root, height=800, width=1300)
-        self.canvas.grid(row=0, column=0)
-        self.slideBar = Scale(self.root, from_=0, to=dim, orient=HORIZONTAL, length=660)
-        self.slideBar.grid(row=1, column=0, sticky=W, padx=325)
+        self.canvas = Canvas(self.root, height=900, width=1350)
+        self.canvas.grid(row=0, column=0, sticky=N)
+        self.slideBar = Scale(self.root, from_=0, to=dim, orient=HORIZONTAL, length=700, width=60, troughcolor='#DCDCDC') #660
+        self.slideBar.grid(row=0, column=0, sticky=S, padx=335, pady=20) #325
         self.velocity = 1
         self.playState = True
 
@@ -32,16 +33,22 @@ class App(object):
         self.imgPrevious = PhotoImage(file="img/previous_button.png")
         self.imgRestart = PhotoImage(file="img/restart_button.png")
         self.backgnd = PhotoImage(file="img/home.png")
+        self.imgPatient = PhotoImage(file="img/patient.png")
+        self.imgPatientAlert = PhotoImage(file="img/patient_alert.png")
 
         # Buttons
-        self.buttonPause = Button(self.root, image=self.imgPause, borderwidth=0, relief=FLAT, command=lambda:setPause(self))
-        self.buttonPause.grid(row=1, column=0, sticky=W, padx=85, pady= 5)
-        self.buttonNext = Button(self.root, image=self.imgNext, borderwidth=0, relief=FLAT, command=lambda:setNextPatient(self))
-        self.buttonNext.grid(row=1, column=0, sticky=W, padx=245, pady=5)
-        self.buttonPrevious = Button(self.root, image=self.imgPrevious, borderwidth=0, relief=FLAT,command=lambda: setPreviousPatient(self))
-        self.buttonPrevious.grid(row=1, column=0, sticky=W, padx=5, pady=5)
-        self.buttonStop = Button(self.root, image=self.imgStop, borderwidth=0, relief=FLAT, command=lambda: setStop(self))
-        self.buttonStop.grid(row=1, column=0, sticky=W, padx=165, pady=5)
+        self.buttonPause = Button(self.root, image=self.imgPause, borderwidth=0, relief=FLAT,
+                                  command=lambda: setPause(self))
+        self.buttonPause.grid(row=0, column=0, sticky=SW, padx=90, pady=20)
+        self.buttonNext = Button(self.root, image=self.imgNext, borderwidth=0, relief=FLAT,
+                                 command=lambda: setNextPatient(self))
+        self.buttonNext.grid(row=0, column=0, sticky=SW, padx=250, pady=20)
+        self.buttonPrevious = Button(self.root, image=self.imgPrevious, borderwidth=0, relief=FLAT,
+                                     command=lambda: setPreviousPatient(self))
+        self.buttonPrevious.grid(row=0, column=0, sticky=SW, padx=10, pady=20)
+        self.buttonStop = Button(self.root, image=self.imgStop, borderwidth=0, relief=FLAT,
+                                 command=lambda: setStop(self))
+        self.buttonStop.grid(row=0, column=0, sticky=SW, padx=170, pady=20)
 
         # BooleanVars
         self.pause = BooleanVar()
@@ -70,8 +77,8 @@ class App(object):
         self.filterActive = StringVar(self.root)
         self.filterActive.set(lastFilter)
         self.filter = OptionMenu(self.root, self.filterActive, *self.choicesDiagnosis)
-        self.filter.config(width=14, anchor=W, padx=15)
-        self.filter.grid(row=2, column=0, stick=W, padx=100, pady=5)
+        self.filter.config(width=12, anchor=W, padx=15)
+        self.filter.grid(row=0, column=0, stick=NE, pady=90, padx=80)
 
         self.choicesNotification = ["In-window text",
                                     "Pop-up window",
@@ -79,52 +86,57 @@ class App(object):
         self.notificationActive = StringVar(self.root)
         self.notificationActive.set(lastNotification)
         self.notification = OptionMenu(self.root, self.notificationActive, *self.choicesNotification)
-        self.notification.config(width=10, anchor=W, padx=15)
-        self.notification.grid(row=2, column=0, stick=W, padx=445, pady=5)
+        self.notification.config(width=12, anchor=W, padx=15)
+        self.notification.grid(row=0, column=0, stick=NE, pady=120, padx=80)
 
         self.choicesContinue = ["Continue with next patient",
                                 "Close the application"]
         self.continueActive = StringVar(self.root)
         self.continueActive.set(lastContinue)
         self.continue_ = OptionMenu(self.root, self.continueActive, *self.choicesContinue)
-        self.continue_.config(width=17, anchor=W, padx=15)
-        self.continue_.grid(row=0, column=0, stick=NE, pady=50, padx=22)
+        self.continue_.config(width=15, anchor=W, padx=15)
+        self.continue_.grid(row=0, column=0, stick=NE, pady=30, padx=80)
 
-        self.choicesChronology = ["10",
-                                  "11",
-                                  "12",
-                                  "13",
-                                  "14",
-                                  "15",
-                                  "16",
-                                  "17",
-                                  "18",
-                                  "19",
-                                  "20",
-                                  "25",
-                                  "30",
-                                  "40",
-                                  "50"]
+        self.choicesChronology = ["2 movements",
+                                  "5 movements",
+                                  "10 movements",
+                                  "11 movements",
+                                  "12 movements",
+                                  "13 movements",
+                                  "14 movements",
+                                  "15 movements",
+                                  "16 movements",
+                                  "17 movements",
+                                  "18 movements",
+                                  "19 movements",
+                                  "20 movements",
+                                  "25 movements",
+                                  "30 movements",
+                                  "40 movements",
+                                  "50 movements"]
         self.chronologyActive = StringVar(self.root)
         self.chronologyActive.set(lastChronology)
         self.chronology = OptionMenu(self.root, self.chronologyActive, *self.choicesChronology)
-        self.chronology.config(width=1, anchor=W, padx=15)
-        self.chronology.grid(row=0, column=0, stick=NE, pady=80, padx=180)
+        self.chronology.config(width=11, anchor=W, padx=15)
+        self.chronology.grid(row=0, column=0, stick=NE, pady=60, padx=80)
 
         # Labels
-        self.patientInfoText = Label(self.root, text="Select a filter:")
-        self.patientInfoText.grid(row=2, column=0, sticky=W)
 
-        self.notificationLabel = Label(self.root, text="Activity notification: ")
-        self.notificationLabel.grid(row=2, column=0, sticky=W, padx=300)
+        self.continueLabel = Label(self.root, text="When finished:")
+        self.continueLabel.grid(row=0, column=0, sticky=NE, padx=271, pady=30)
 
-        self.continueLabel = Label(self.root, text="At the end:")
-        self.continueLabel.grid(row=0, column=0, sticky=NE, padx=233, pady=50)
+        self.movementsLabel = Label(self.root, text="Patient route length:")
+        self.movementsLabel.grid(row=0, column=0, sticky=NE, padx=238, pady=60)
 
-        self.continueLabel = Label(self.root, text="Show last")
-        self.continueLabel.grid(row=0, column=0, sticky=NE, padx=241, pady=80)
-        self.continueLabel = Label(self.root, text="movements")
-        self.continueLabel.grid(row=0, column=0, sticky=NE, padx=98, pady=80)
+        self.patientInfoText = Label(self.root, text="Filter by diagnosis:")
+        self.patientInfoText.grid(row=0, column=0, sticky=NE, padx=246, pady=90)
+
+        self.notificationLabel = Label(self.root, text="Activity notification:")
+        self.notificationLabel.grid(row=0, column=0, sticky=NE, padx=241, pady=120)
+
+        self.preferencesLabel = Label (self.root, text="Visualization preferences",  font=("Purisa", 18, 'bold'),
+                                  anchor=W)
+        self.preferencesLabel.grid(row=0, column=0, sticky=NE, padx=135)
 
         # Variables
         self.traces = []
@@ -157,34 +169,36 @@ class App(object):
         chooseSpeedFlow.add_command(label="Automatic", command=lambda: setSpeedFlow(False, window))
         menuBar.add_cascade(label="Speed flow", menu=chooseSpeedFlow)
 
-        self.canvas.create_line(0,790,985,790, fill='grey', width=2)
-        self.canvas.create_image(0,0,image=self.backgnd,anchor="nw")
+        self.canvas.create_line(0, 790, 1985, 790, fill='grey', width=2)
+        self.canvas.create_image(0, 0, image=self.backgnd, anchor="nw")
+        self.patientImg = self.canvas.create_image(1100,850, image=self.imgPatient)
 
-    def writeInfo (self, text):
-        txt = self.canvas.create_text(1000,750, text=text, anchor=W)
+    def writeInfo(self, text):
+        txt = self.canvas.create_text(1000, 750, text=text, anchor=W)
         return txt
 
-    def writeTime (self, text):
-        txt = self.canvas.create_text(1000,770, text="Timestamp: " + text, anchor=W)
+    def writeTime(self, text):
+        txt = self.canvas.create_text(1000, 770, text="Timestamp: " + text, anchor=W)
         return txt
 
-    def writeMoreInfo (self, text):
+    def writeMoreInfo(self, text):
         txt = self.canvas.create_text(1000, 450, text=text, anchor=W, width=300)
         return txt
 
     def drawLine(self, i, colour, thickness):
-        l = self.canvas.create_line(self.chronoPos[i-1][0], self.chronoPos[i-1][1], self.chronoPos[i][0], self.chronoPos[i][1], fill=colour, width=thickness*2, arrow='last')
+        l = self.canvas.create_line(self.chronoPos[i - 1][0], self.chronoPos[i - 1][1], self.chronoPos[i][0],
+                                    self.chronoPos[i][1], fill=colour, width=thickness * 2, arrow='last')
         return l
 
     def drawLoop(self, i, colour, reps, thickness):
-        x = self.chronoPos[i-1][0]
-        y = self.chronoPos[i-1][1]
+        x = self.chronoPos[i - 1][0]
+        y = self.chronoPos[i - 1][1]
         r = 15 + reps + (i % reps)
 
-        l = self.canvas.create_oval(x-r, y-r, x+r, y+r, outline=colour, width=thickness)
+        l = self.canvas.create_oval(x - r, y - r, x + r, y + r, outline=colour, width=thickness)
         return l
 
-    def drawRoute (self):
+    def drawRoute(self):
         lines = []
         c = 0
         if self.chronoIndex >= 2:
@@ -195,39 +209,41 @@ class App(object):
                 for j in range(0, len(self.sensorPair)):
                     c = self.sensorPair.count((self.chronoPos[i], self.chronoPos[i]))
 
-                if (self.chronoPos[i-1] != self.chronoPos[i]) and (self.chronoPos[i] is not None and self.chronoPos[i-1] is not None):
-                    if i == (len(self.chronoPos) -1): # Last movement
-                        colour='red'
-                        thickness=2
-                    elif i == (len(self.chronoPos) -2): # 10-2
+                if (self.chronoPos[i - 1] != self.chronoPos[i]) and (
+                        self.chronoPos[i] is not None and self.chronoPos[i - 1] is not None):
+                    if i == (len(self.chronoPos) - 1):  # Last movement
+                        colour = 'red'
+                        thickness = 2
+                    elif i == (len(self.chronoPos) - 2):  # 10-2
                         colour = 'black'
-                        thickness=1
-                    elif i == (len(self.chronoPos) - 3): # 10-3
+                        thickness = 1
+                    elif i == (len(self.chronoPos) - 3):  # 10-3
                         colour = '#708090'
-                        thickness=1
-                    elif i == (len(self.chronoPos) - 4): # 10-4
+                        thickness = 1
+                    elif i == (len(self.chronoPos) - 4):  # 10-4
                         colour = '#696969'
-                        thickness=1
+                        thickness = 1
                     elif i == (len(self.chronoPos) - 5):  # 10-5
                         colour = '#A9A9A9'
-                        thickness=1
-                    elif i == (len(self.chronoPos) - 6): # 10-6
+                        thickness = 1
+                    elif i == (len(self.chronoPos) - 6):  # 10-6
                         colour = '#C0C0C0'
-                        thickness=1
-                    elif i == (len(self.chronoPos) - 7): # 10-7
+                        thickness = 1
+                    elif i == (len(self.chronoPos) - 7):  # 10-7
                         colour = '#C0C0C0'
-                        thickness=1
-                    elif i == (len(self.chronoPos) - 8): #10-8
+                        thickness = 1
+                    elif i == (len(self.chronoPos) - 8):  # 10-8
                         colour = '#D3D3D3'
-                        thickness=1
-                    else: # Previous movements
-                        colour='#DCDCDC'
-                        thickness=1
+                        thickness = 1
+                    else:  # Previous movements
+                        colour = '#DCDCDC'
+                        thickness = 1
 
                     lines.append(self.drawLine(i, colour, thickness))
 
-                elif (self.chronoPos[i-1] == self.chronoPos[i]) and (self.chronoPos[i] is not None) and (self.chronoPos[i-1] is not None):
-                    
+                elif (self.chronoPos[i - 1] == self.chronoPos[i]) and (self.chronoPos[i] is not None) and (
+                        self.chronoPos[i - 1] is not None):
+
                     if i == (len(self.chronoPos) - 1):  # Last movement
                         colour = 'red'
                         thickness = 3
@@ -269,24 +285,30 @@ class App(object):
             if isVertical(coordinate) == False:
 
                 if status == "ON" or status == "OPEN" or status == "PRESENT":
-                    img = self.canvas.create_image(posX,posY, image=self.imgON)
+                    img = self.canvas.create_image(posX, posY, image=self.imgON)
 
                 if status == "OFF" or status == "CLOSE" or status == "ABSENT":
-                    img = self.canvas.create_image(posX,posY, image=self.imgOFF)
-            else: 
+                    img = self.canvas.create_image(posX, posY, image=self.imgOFF)
+            else:
                 if status == "ON" or status == "OPEN" or status == "PRESENT":
-                    img = self.canvas.create_image(posX, posY, image=self.imgONv)  
+                    img = self.canvas.create_image(posX, posY, image=self.imgONv)
 
                 if status == "OFF" or status == "CLOSE" or status == "ABSENT":
                     img = self.canvas.create_image(posX, posY, image=self.imgOFFv)
         return img
 
+    def setPatientImg(self, status):
+        self.deleteElement(self.patientImg)
+        if status:
+            self.patientImg = self.canvas.create_image(1100,850, image=self.imgPatientAlert)
+        else:
+            self.patientImg = self.canvas.create_image(1100, 850, image=self.imgPatient)
 
-    def deleteElement (self, elem):
+    def deleteElement(self, elem):
         self.canvas.delete(elem)
 
 
-def deleteElements (cnv, elem1, elem2, elem3, elem4, elem5):
+def deleteElements(cnv, elem1, elem2, elem3, elem4, elem5):
     cnv.deleteElement(elem1)
     cnv.deleteElement(elem2)
     cnv.deleteElement(elem3)
@@ -299,20 +321,21 @@ def deleteElements (cnv, elem1, elem2, elem3, elem4, elem5):
         for e in cnv.tracesHistory:
             cnv.deleteElement(e)
 
+
 def concatenateActivity(activityList):
     tmp = ""
     k = 0
     for activity in activityList:
         if k == 0:
-            tmp = tmp + "" + activity + "\n" # Activity title
+            tmp = tmp + "" + activity + "\n"  # Activity title
             k = k + 1
         else:
-            tmp = tmp + " • "  + activity + "\n" # Activities
+            tmp = tmp + " • " + activity + "\n"  # Activities
 
     return tmp
 
-def isVertical (coordinate):
 
+def isVertical(coordinate):
     if coordinate == getCoordinate("D007"):
         return True
     if coordinate == getCoordinate("D014"):
@@ -326,11 +349,11 @@ def isVertical (coordinate):
 
     return False
 
+
 ##########################
 
 def getCoordinate(sensor):
-
-    #region Dxxx - Doors
+    # region Dxxx - Doors
     if sensor == "D001":
         return [605, 767]
 
@@ -349,7 +372,7 @@ def getCoordinate(sensor):
     if sensor == "D006":
         return [387, 696]
 
-    if sensor == "D007": #vertical
+    if sensor == "D007":  # vertical
         return [956, 511]
 
     if sensor == "D008":
@@ -370,7 +393,7 @@ def getCoordinate(sensor):
     if sensor == "D013":
         return [557, 312]
 
-    if sensor == "D014": #vertical
+    if sensor == "D014":  # vertical
         return [964, 565]
 
     if sensor == "D015":
@@ -379,9 +402,9 @@ def getCoordinate(sensor):
     if sensor == "D016":
         return [954, 417]
 
-    #endregion
+    # endregion
 
-    #region Mxxx - Movement
+    # region Mxxx - Movement
     if sensor == "M001":
         return [645, 357]
 
@@ -532,11 +555,11 @@ def getCoordinate(sensor):
     if sensor == "M050":
         return [188, 223]
 
-    #endregion
+    # endregion
 
-    #region Ixxx - Items
+    # region Ixxx - Items
 
-    if sensor == "IOO7": #vertical
+    if sensor == "IOO7":  # vertical
         return [937, 510]
 
     if sensor == "I008":
@@ -552,12 +575,12 @@ def getCoordinate(sensor):
         return [551, 347]
 
     return None
-    #endregion
+    # endregion
+
 
 ##########################
 
 def setPosition(window, dataset, pos, tempo):
-
     if window.playState == False:
         tempo = 300
 
@@ -570,7 +593,9 @@ def setPosition(window, dataset, pos, tempo):
 
     triggeredSensor = False
     '''GESTIONE DELLA STAMPA DEL PERCORSO '''
-    if (sensor[0] == "M" or sensor[0] == "I" or sensor[0] == "D") and (sensorData == "ON" or sensorData == "OPEN" or sensorData == "PRESENT") and getCoordinate(sensor) is not None:
+    if (sensor[0] == "M" or sensor[0] == "I" or sensor[0] == "D") and (
+            sensorData == "ON" or sensorData == "OPEN" or sensorData == "PRESENT") and getCoordinate(
+            sensor) is not None:
         triggeredSensor = True
 
         if len(window.chronoPos) > 0:
@@ -581,14 +606,12 @@ def setPosition(window, dataset, pos, tempo):
         window.chronoIndex = window.chronoIndex + 1
         window.traces = (window.drawRoute())
 
-
-        if window.chronoIndex >= int(window.chronologyActive.get()): # Route history
+        if window.chronoIndex > int(re.split(' ', window.chronologyActive.get())[0]):  # Route history
             window.chronoPos.pop(0)
             window.sensorPair.pop(0)
-            while len(window.chronoPos) > int(window.chronologyActive.get()):
+            while len(window.chronoPos) > int(re.split(' ', window.chronologyActive.get())[0]):
                 window.chronoPos.pop(0)
                 window.sensorPair.pop(0)
-
 
     if triggeredSensor == False and len(window.chronoPos) > 0:
         window.tracesHistory = (window.drawRoute())
@@ -599,7 +622,7 @@ def setPosition(window, dataset, pos, tempo):
     if otherInfo is not np.nan:
         fullActivities = getActivityList(str(otherInfo))
 
-        if len(fullActivities) is not 0:
+        if len(fullActivities) != 0:
             listDoneActivities.append(fullActivities[0])
             if '-' in otherInfo[0:3]:
                 indices = getStartActivityIndex(otherInfo)
@@ -608,20 +631,22 @@ def setPosition(window, dataset, pos, tempo):
 
             for i in indices:
                 listDoneActivities.append(fullActivities[int(i)])
-                tempo += 300 
+                tempo += 300
     coordinate = getCoordinate(dataset.iloc[pos]["Sensor"])
 
-    #region M SENSORS
+    # region M SENSORS
     if dataset.iloc[pos]["Sensor"][0] == "M" and getCoordinate(dataset.iloc[pos]["Sensor"]) is not None:
         text = window.writeInfo("Movement detected on " + sensor + " - " + sensorData)
         time = window.writeTime("(" + timestamp + ")")
         info = None
-
+        window.setPatientImg(False)
         if otherInfo is not np.nan:
             if window.notificationActive.get() == "In-window text":
+                window.setPatientImg(True)
                 info = window.writeMoreInfo("Activity detected:\n" + concatenateActivity(listDoneActivities))
 
             elif window.notificationActive.get() == "Pop-up window":
+                window.setPatientImg(True)
                 info = window.writeMoreInfo("Activity detected: check pop-up window for details.")
                 showinfo("Motion detected", concatenateActivity(listDoneActivities))
 
@@ -635,19 +660,21 @@ def setPosition(window, dataset, pos, tempo):
 
         window.root.after(tempo, deleteElements(window, text, sensorState, time, info, triggeredSensor))
 
-    #endregion
+    # endregion
 
-    #region D SENSORS
+    # region D SENSORS
     elif dataset.iloc[pos]["Sensor"][0] == "D":
-        text = window.writeInfo("Movement detected on door " + sensor + " - " +sensorData)
+        text = window.writeInfo("Movement detected on door " + sensor + " - " + sensorData)
         time = window.writeTime("(" + timestamp + ")")
         info = None
-
+        window.setPatientImg(False)
         if otherInfo is not np.nan:
             if window.notificationActive.get() == "In-window text":
+                window.setPatientImg(True)
                 info = window.writeMoreInfo("Activity detected:\n" + concatenateActivity(listDoneActivities))
 
             elif window.notificationActive.get() == "Pop-up window":
+                window.setPatientImg(True)
                 info = window.writeMoreInfo("Activity detected: check pop-up window for details.")
                 showinfo("Motion detected", concatenateActivity(listDoneActivities))
 
@@ -659,20 +686,22 @@ def setPosition(window, dataset, pos, tempo):
         window.root.update()
 
         window.root.after(tempo, deleteElements(window, text, sensorState, time, info, triggeredSensor))
-    #endregion
+    # endregion
 
-    #region I SENSORS
+    # region I SENSORS
     elif dataset.iloc[pos]["Sensor"][0] == "I":
         text = window.writeInfo("Movement detected on item " + sensor)
         time = window.writeTime("(" + timestamp + ")")
 
         info = None
-
+        window.setPatientImg(False)
         if otherInfo is not np.nan:
             if window.notificationActive.get() == "In-window text":
+                window.setPatientImg(True)
                 info = window.writeMoreInfo("Activity detected:\n" + concatenateActivity(listDoneActivities))
 
             elif window.notificationActive.get() == "Pop-up window":
+                window.setPatientImg(True)
                 info = window.writeMoreInfo("Activity detected: check pop-up window for details.")
                 showinfo("Motion detected", concatenateActivity(listDoneActivities))
 
@@ -684,39 +713,47 @@ def setPosition(window, dataset, pos, tempo):
         window.root.update()
 
         window.root.after(tempo, deleteElements(window, text, sensorState, time, info, triggeredSensor))
-    #endregion
+    # endregion
 
-    #region NO MOVEMENT DETECTED
+    # region NO MOVEMENT DETECTED
     else:
         text = window.writeInfo("No motion detected")
         time = window.writeTime("(" + timestamp + ")")
-
+        window.setPatientImg(False)
         window.root.update()
         window.root.after(0, deleteElements(window, text, None, time, None, triggeredSensor))
-    #endregion
+    # endregion
+
 
 def setSpeed(val, obj):
     obj.velocity = val
 
-def setSpeedFlow (val, obj):
+
+def setSpeedFlow(val, obj):
     obj.playState = val
 
-def setPause (obj):
-    obj.pause.set(not(obj.pause.get()))
 
-def setStop (obj):
-    obj.stop.set(not(obj.stop.get()))
+def setPause(obj):
+    obj.pause.set(not (obj.pause.get()))
 
-def setRestart (obj):
+
+def setStop(obj):
+    obj.stop.set(not (obj.stop.get()))
+
+
+def setRestart(obj):
     obj.currentIndex = 0
-    obj.restart.set(not(obj.restart.get()))
+    obj.restart.set(not (obj.restart.get()))
     setPause(obj)
 
+
 def setNextPatient(obj):
-    obj.next.set(not(obj.next.get()))
+    obj.next.set(not (obj.next.get()))
+
 
 def setPreviousPatient(obj):
-    obj.previous.set(not(obj.previous.get()))
+    obj.previous.set(not (obj.previous.get()))
+
 
 elem = 1
 diagnosis = pd.read_csv('diagnosis.txt', sep=" ", header=None)
@@ -724,11 +761,12 @@ diagnosis.columns = ["ID", "Diagnosis"]
 lastFilter = "All (default)"
 lastNotification = "In-window text"
 lastContinue = "Continue with next patient"
-lastChronology = "10"
+lastChronology = "10 movements"
 wantClose = False
 restarted = False
 
-def getFileString (id):
+
+def getFileString(id):
     if id < 10:
         s = "00" + str(id)
     elif id >= 10 and id < 100:
@@ -736,6 +774,7 @@ def getFileString (id):
     else:
         s = str(id)
     return 'dataset/' + s + '.txt'
+
 
 def searchNextPatient(obj, type):
     diagnosisID = obj.choicesDiagnosis.index(type)
@@ -748,6 +787,7 @@ def searchNextPatient(obj, type):
                 return pos
     return -1
 
+
 def searchPreviousPatient(obj, type):
     diagnosisID = obj.choicesDiagnosis.index(type)
     pos = obj.currentPatient
@@ -758,28 +798,32 @@ def searchPreviousPatient(obj, type):
                 return pos
     return -1
 
+
 while elem <= 400 and not wantClose:
-    newElem = elem+1
+    newElem = elem + 1
     try:
         dataset = pd.read_csv(getFileString(elem), sep=" ", error_bad_lines=False, header=None)
         dataset.columns = ["Timestamp", "Sensor", "Sensor data", "Other info"]
 
     except FileNotFoundError:
-        print("Patient #" + str(elem) +" data not found") #Terminal printing
+        print("Patient #" + str(elem) + " data not found")  # Terminal printing
         elem += 1
 
     else:
-        dim = len(dataset.index) 
+        dim = len(dataset.index)
         window = App("Patient #" + str(elem), dim, lastFilter, lastNotification, lastContinue)
-        window.canvas.create_text(1000, 12, text="Monitoring patient #"+ str(elem), font=("Purisa", 16, 'bold'), anchor=W)
-        window.canvas.create_text(1000, 30, text="Diagnosis: " + window.choicesDiagnosis[diagnosis.iloc[elem]["Diagnosis"]], anchor=W, width=300)
+        window.canvas.create_text(1150, 820, text="Monitoring patient #" + str(elem), font=("Purisa", 16, 'bold'),
+                                  anchor=W)
+        window.canvas.create_text(1150, 840,
+                                  text="Diagnosis: " + window.choicesDiagnosis[diagnosis.iloc[elem]["Diagnosis"]],
+                                  anchor=W, width=300)
 
         inPause = False
         inRestart = False
         inStop = False
-        dim_ciclo = range(0,dim)
+        dim_ciclo = range(0, dim)
 
-        timeDiff = 300 
+        timeDiff = 300
 
         window.currentPatient = elem
         changed = False
@@ -789,7 +833,7 @@ while elem <= 400 and not wantClose:
 
             if window.pause.get():
                 window.buttonPause.configure(image=window.imgResume)
-                window.buttonStop.configure(image=window.imgRestart, command=lambda:setRestart(window))
+                window.buttonStop.configure(image=window.imgRestart, command=lambda: setRestart(window))
                 inRestart = True
                 tmp = window.drawRoute()
                 tmpInfo = window.writeTime("Process paused.")
@@ -815,7 +859,6 @@ while elem <= 400 and not wantClose:
 
                     if window.traces is not None:
                         window.tracesHistory.clear()
-                        # window.buttonStop.configure(image=window.imgStop, command=lambda: setStop(window))
                     for e in tmp:
                         window.deleteElement(e)
                     inPause = False
@@ -843,11 +886,12 @@ while elem <= 400 and not wantClose:
                 inRestart = False
 
             if window.stop.get() and not inRestart:
-                result = askquestion("Exiting application", "Are you sure you want to close the application?", icon='warning')
-                if result == 'yes': # positive button
+                result = askquestion("Exiting application", "Are you sure you want to close the application?",
+                                     icon='warning')
+                if result == 'yes':  # positive button
                     wantClose = True
                     break
-                else: # negative button
+                else:  # negative button
                     window.stop.set(not window.stop.get())
 
             checkNext = searchNextPatient(window, window.filterActive.get())
@@ -882,7 +926,7 @@ while elem <= 400 and not wantClose:
             actualTime = Timestamp(sensorTime)
 
             if window.currentIndex != 0 or window.currentIndex != dim_ciclo:
-                sensorTimePrecedente = dataset.iloc[window.currentIndex-1]["Timestamp"]
+                sensorTimePrecedente = dataset.iloc[window.currentIndex - 1]["Timestamp"]
 
                 sensorTimePrev = Timestamp(sensorTimePrecedente)
 
@@ -891,7 +935,8 @@ while elem <= 400 and not wantClose:
                 if timeDiff > 5000:
                     timeDiff = 1000
 
-            window.root.after(int(800 * window.velocity), setPosition(window, dataset, window.currentIndex, int(timeDiff)))
+            window.root.after(int(800 * window.velocity),
+                              setPosition(window, dataset, window.currentIndex, int(timeDiff)))
 
             if window.currentIndex != window.slideBar.get():
                 window.chronoIndex = 0
@@ -916,7 +961,8 @@ while elem <= 400 and not wantClose:
         if not changed:
             elem = checkNext
         if checkNext == -1 and checkPrevious == -1:
-            showinfo("Closing the app", "There are no more data to show with the current filter. The application will end immediately")
+            showinfo("Closing the app",
+                     "There are no more data to show with the current filter. The application will end immediately")
         if lastContinue == "Close the application":
             showinfo("Closing the application", "The application will be arrested")
 
