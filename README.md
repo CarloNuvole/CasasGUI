@@ -50,4 +50,5 @@ Using GUI, you can:
 - Choose if you want a real-time (based on time difference between records) or automatic (code-based) tracking _Speed flow toolbar option_
 
 Lines represent a movement from sensor A to sensor B (with an arrow indicating the direction)
+
 Circles represent a loop (from sensor A to sensor A)
