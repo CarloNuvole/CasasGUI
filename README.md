@@ -1,7 +1,7 @@
 # CASAS GUI
 Thesis project.
 
-![CASAS GUI](https://scontent-mxp1-1.xx.fbcdn.net/v/t1.15752-9/s2048x2048/71823942_703495783484635_5314052066270773248_n.png?_nc_cat=111&_nc_oc=AQl5imN3jdPcL5CfHVrerbY6qo98NoT71e_mAWeoNY_1TDtpfKqu0HAhOH-PrqiH99c&_nc_ht=scontent-mxp1-1.xx&oh=ec468d123c2f704da50aabfc1e8f0c05&oe=5DF3A9B8)
+![CASAS GUI](https://scontent-mxp1-1.xx.fbcdn.net/v/t1.15752-9/72592385_529871357797630_2532323197441802240_n.jpg?_nc_cat=107&_nc_oc=AQkddzzNXzEU0buNYzYqKgxY11uVmZOPXT3ah1oZcVEy4zz9Hf6sBHFoF9TfpCKTkWc&_nc_ht=scontent-mxp1-1.xx&oh=e793a156ddd749b534943fa3393c948b&oe=5E5ED383)
 
 # **Before starting**
 This project uses Python3 with the following libreries, be sure to have them before running:
