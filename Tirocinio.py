@@ -35,6 +35,9 @@ class App(object):
         self.backgnd = PhotoImage(file="img/home.png")
         self.imgPatient = PhotoImage(file="img/patient.png")
         self.imgPatientAlert = PhotoImage(file="img/patient_alert.png")
+        self.imgActivities = []
+        for i in range(1, 25):
+            self.imgActivities.append(PhotoImage(file="activitiesImg/"+str(i)+".png"))
 
         # Buttons
         self.buttonPause = Button(self.root, image=self.imgPause, borderwidth=0, relief=FLAT,
@@ -170,8 +173,9 @@ class App(object):
         menuBar.add_cascade(label="Speed flow", menu=chooseSpeedFlow)
 
         self.canvas.create_line(0, 790, 1985, 790, fill='grey', width=2)
+        self.canvas.create_line(990,150,1985,150, fill='grey', width=2)
         self.canvas.create_image(0, 0, image=self.backgnd, anchor="nw")
-        self.patientImg = self.canvas.create_image(1100,850, image=self.imgPatient)
+        self.patientImg = self.canvas.create_image(1100, 850, image=self.imgPatient)
 
     def writeInfo(self, text):
         txt = self.canvas.create_text(1000, 750, text=text, anchor=W)
@@ -182,7 +186,7 @@ class App(object):
         return txt
 
     def writeMoreInfo(self, text):
-        txt = self.canvas.create_text(1000, 450, text=text, anchor=W, width=300)
+        txt = self.canvas.create_text(1000, 400, text=text, anchor=W, width=320)
         return txt
 
     def drawLine(self, i, colour, thickness):
@@ -300,19 +304,24 @@ class App(object):
     def setPatientImg(self, status):
         self.deleteElement(self.patientImg)
         if status:
-            self.patientImg = self.canvas.create_image(1100,850, image=self.imgPatientAlert)
+            self.patientImg = self.canvas.create_image(1100, 850, image=self.imgPatientAlert)
         else:
             self.patientImg = self.canvas.create_image(1100, 850, image=self.imgPatient)
+
+    def setActivityImg(self, index):
+        img = self.canvas.create_image(1173, 245, image=self.imgActivities[int(index)-1])
+        return img
 
     def deleteElement(self, elem):
         self.canvas.delete(elem)
 
 
-def deleteElements(cnv, elem1, elem2, elem3, elem4, elem5):
+def deleteElements(cnv, elem1, elem2, elem3, elem4, elem5, elem6):
     cnv.deleteElement(elem1)
     cnv.deleteElement(elem2)
     cnv.deleteElement(elem3)
     cnv.deleteElement(elem4)
+    cnv.deleteElement(elem6)
 
     if elem5:
         for e in cnv.traces:
@@ -320,6 +329,7 @@ def deleteElements(cnv, elem1, elem2, elem3, elem4, elem5):
     if elem5 == False:
         for e in cnv.tracesHistory:
             cnv.deleteElement(e)
+
 
 
 def concatenateActivity(activityList):
@@ -593,9 +603,9 @@ def setPosition(window, dataset, pos, tempo):
 
     triggeredSensor = False
     '''GESTIONE DELLA STAMPA DEL PERCORSO '''
-    if (sensor[0] == "M" or sensor[0] == "I" or sensor[0] == "D") and (
-            sensorData == "ON" or sensorData == "OPEN" or sensorData == "PRESENT") and getCoordinate(
-            sensor) is not None:
+    if (sensor[0] == "M" or sensor[0] == "I" or sensor[0] == "D") \
+        and (sensorData == "ON" or sensorData == "OPEN" or sensorData == "PRESENT") \
+        and getCoordinate(sensor) is not None:
         triggeredSensor = True
 
         if len(window.chronoPos) > 0:
@@ -640,13 +650,30 @@ def setPosition(window, dataset, pos, tempo):
         time = window.writeTime("(" + timestamp + ")")
         info = None
         window.setPatientImg(False)
+        activityImage = None
+
         if otherInfo is not np.nan:
             if window.notificationActive.get() == "In-window text":
                 window.setPatientImg(True)
+                if "start" in str(otherInfo) or "end" in str(otherInfo):
+                    index = str(otherInfo).split('-')[0]
+                    print(index)
+                else:
+                    index = str(otherInfo).split(',')[0].split('.')[0]
+                    print(index)
+
+                activityImage = window.setActivityImg(int(index))
                 info = window.writeMoreInfo("Activity detected:\n" + concatenateActivity(listDoneActivities))
 
             elif window.notificationActive.get() == "Pop-up window":
                 window.setPatientImg(True)
+                if "start" in str(otherInfo) or "end" in str(otherInfo):
+                    index = str(otherInfo).split('-')[0]
+                    print(index)
+                else:
+                    index = str(otherInfo).split(',')[0].split('.')[0]
+                    print(index)
+                activityImage = window.setActivityImg(int(index))
                 info = window.writeMoreInfo("Activity detected: check pop-up window for details.")
                 showinfo("Motion detected", concatenateActivity(listDoneActivities))
 
@@ -658,7 +685,7 @@ def setPosition(window, dataset, pos, tempo):
 
         window.root.update()
 
-        window.root.after(tempo, deleteElements(window, text, sensorState, time, info, triggeredSensor))
+        window.root.after(tempo, deleteElements(window, text, sensorState, time, info, triggeredSensor, activityImage))
 
     # endregion
 
@@ -668,13 +695,28 @@ def setPosition(window, dataset, pos, tempo):
         time = window.writeTime("(" + timestamp + ")")
         info = None
         window.setPatientImg(False)
+        activityImage = None
+
         if otherInfo is not np.nan:
             if window.notificationActive.get() == "In-window text":
                 window.setPatientImg(True)
+                if "start" in str(otherInfo) or "end" in str(otherInfo):
+                    index = str(otherInfo).split('-')[0]
+                    print(index)
+                else:
+                    index = str(otherInfo).split(',')[0].split('.')[0]
+                activityImage = window.setActivityImg(int(index))
                 info = window.writeMoreInfo("Activity detected:\n" + concatenateActivity(listDoneActivities))
 
             elif window.notificationActive.get() == "Pop-up window":
                 window.setPatientImg(True)
+                if "start" in str(otherInfo) or "end" in str(otherInfo):
+                    index = str(otherInfo).split('-')[0]
+                    print(index)
+                else:
+                    index = str(otherInfo).split(',')[0].split('.')[0]
+                    print(index)
+                activityImage = window.setActivityImg(int(index))
                 info = window.writeMoreInfo("Activity detected: check pop-up window for details.")
                 showinfo("Motion detected", concatenateActivity(listDoneActivities))
 
@@ -685,23 +727,37 @@ def setPosition(window, dataset, pos, tempo):
 
         window.root.update()
 
-        window.root.after(tempo, deleteElements(window, text, sensorState, time, info, triggeredSensor))
+        window.root.after(tempo, deleteElements(window, text, sensorState, time, info, triggeredSensor, activityImage))
     # endregion
 
     # region I SENSORS
     elif dataset.iloc[pos]["Sensor"][0] == "I":
         text = window.writeInfo("Movement detected on item " + sensor)
         time = window.writeTime("(" + timestamp + ")")
-
         info = None
         window.setPatientImg(False)
+        activityImage = None
+
         if otherInfo is not np.nan:
             if window.notificationActive.get() == "In-window text":
                 window.setPatientImg(True)
+                if "start" in str(otherInfo) or "end" in str(otherInfo):
+                    index = str(otherInfo).split('-')[0]
+                    print(index)
+                else:
+                    index = str(otherInfo).split(',')[0].split('.')[0]
+                    print(index)
+                activityImage = window.setActivityImg(int(index))
                 info = window.writeMoreInfo("Activity detected:\n" + concatenateActivity(listDoneActivities))
 
             elif window.notificationActive.get() == "Pop-up window":
                 window.setPatientImg(True)
+                if "start" in str(otherInfo) or "end" in str(otherInfo):
+                    index = str(otherInfo).split('-')[0]
+                    print(index)
+                else:
+                    index = str(otherInfo).split(',')[0].split('.')[0]
+                activityImage = window.setActivityImg(int(index))
                 info = window.writeMoreInfo("Activity detected: check pop-up window for details.")
                 showinfo("Motion detected", concatenateActivity(listDoneActivities))
 
@@ -712,7 +768,7 @@ def setPosition(window, dataset, pos, tempo):
 
         window.root.update()
 
-        window.root.after(tempo, deleteElements(window, text, sensorState, time, info, triggeredSensor))
+        window.root.after(tempo, deleteElements(window, text, sensorState, time, info, triggeredSensor, activityImage))
     # endregion
 
     # region NO MOVEMENT DETECTED
@@ -721,7 +777,7 @@ def setPosition(window, dataset, pos, tempo):
         time = window.writeTime("(" + timestamp + ")")
         window.setPatientImg(False)
         window.root.update()
-        window.root.after(0, deleteElements(window, text, None, time, None, triggeredSensor))
+        window.root.after(0, deleteElements(window, text, None, time, None, triggeredSensor, None))
     # endregion
 
 

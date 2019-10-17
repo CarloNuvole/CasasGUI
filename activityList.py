@@ -87,15 +87,11 @@ def getActivityList(s):
         list.append("Participant brings all items to dining room table")
 
     if s[0:2] == '8-' or val[0] == '8':
-        list.append("Find the appropriate DVD and watch the corresponding news clip.")  
-        list.append("Participant moves to the living room")
-        list.append("Participant selects correct DVD")
-        list.append("Participant reads instructions next to the T.V.")
-        list.append("Participants uses remote to turn on TV")
-        list.append("Participant selects correct channel")
-        list.append("Participant watches news clip")
-        list.append("Participant turns off T.V.")
-        list.append("Participant returns DVD to pile")
+        list.append("Pick a complete outfit for an interview from a selection of clothing.")
+        list.append("Participant moves to hallway closet")
+        list.append("Participant chooses correct outfit from closet:\nShirt Pants Shoes Coat Tie")
+        list.append("Participant lays out clothes on living room couch")
+
     #endregion
 
     # region Cued Tasks
@@ -133,7 +129,7 @@ def getActivityList(s):
         list.append("Participant moves to the dining room table")
         list.append("Participant sits at dining room table")
         list.append("Participant locates the phone book")
-        list.append(" Participant locates the phone number for \"Safeway Food and Drugs\"")
+        list.append("Participant locates the phone number for \"Safeway Food and Drugs\"")
         list.append("Participant dials the number and listens to the recording")
         list.append("Participant records the recipe")
         list.append("Participant hangs up the phone")
@@ -198,7 +194,7 @@ def getActivityList(s):
         list.append("Take a dose of an anti-motion sickness medication.") 
 
     if s[0:2] == '22':
-        list.append("Find a recipe book, gather ingredients cited as necessary for a picnic meal." )
+        list.append("Find a recipe book, gather ingredients cited as necessary for a picnic meal.")
 
     if s[0:2] == '23':
         list.append("Obtain a picnic basket from the hall closet and fill with all items for the trip.") 
@@ -214,10 +210,10 @@ def getStartActivityIndex(s):
     pattern = ','
     res = re.split(pattern, s)
     indices = []
-
-    for i in res[1:]:
-        indices.append(i.split('.')[1])
-
+    try:
+        for i in res[1:]:
+            indices.append(i.split('.')[1])
+    except: IndexError
     return indices
 
 def getActivityIndex(s):
