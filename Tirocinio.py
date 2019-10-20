@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter.messagebox import *
+from decimal import *
 import pandas as pd
 import numpy as np
 import os
@@ -140,6 +141,8 @@ class App(object):
         self.preferencesLabel = Label (self.root, text="Visualization preferences",  font=("Purisa", 18, 'bold'),
                                   anchor=W)
         self.preferencesLabel.grid(row=0, column=0, sticky=NE, padx=138)
+
+        self.speedText = self.canvas.create_text(1150, 860, text="Speed: 1x - Real flow", anchor=W)
 
         # Variables
         self.traces = []
@@ -781,13 +784,27 @@ def setPosition(window, dataset, pos, tempo):
     # endregion
 
 
+def getSpeedStr(val):
+    if str(1 / val) == "0.25" or str(1 / val) == "0.5":
+        return str(Decimal(1/val).normalize())
+    return str(Decimal(1/val).to_integral())
+
+def getSpeedFlowStr(val):
+    if val:
+        return "Real flow"
+    return "Automatic flow"
+
 def setSpeed(val, obj):
     obj.velocity = val
+    obj.canvas.itemconfig(obj.speedText, text="Speed: " + getSpeedStr(val) + "x - " + getSpeedFlowStr(obj.playState))
+    if str(1 / val) == "0.25" or str(1 / val) == "0.5":
+        showinfo("Low speed selected", "You have selected a speed that could slow down the application. "
+                                       "With this speed, the application will take longer to respond to any action.")
 
 
 def setSpeedFlow(val, obj):
     obj.playState = val
-
+    obj.canvas.itemconfig(obj.speedText, text="Speed: " + getSpeedStr(obj.velocity) + "x - " + getSpeedFlowStr(val))
 
 def setPause(obj):
     obj.pause.set(not (obj.pause.get()))
@@ -873,6 +890,7 @@ while elem <= 400 and not wantClose:
         window.canvas.create_text(1150, 840,
                                   text="Diagnosis: " + window.choicesDiagnosis[diagnosis.iloc[elem]["Diagnosis"]],
                                   anchor=W, width=300)
+
 
         inPause = False
         inRestart = False
