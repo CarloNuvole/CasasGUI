@@ -660,10 +660,8 @@ def setPosition(window, dataset, pos, tempo):
                 window.setPatientImg(True)
                 if "start" in str(otherInfo) or "end" in str(otherInfo):
                     index = str(otherInfo).split('-')[0]
-                    print(index)
                 else:
                     index = str(otherInfo).split(',')[0].split('.')[0]
-                    print(index)
 
                 activityImage = window.setActivityImg(int(index))
                 info = window.writeMoreInfo("Activity detected:\n" + concatenateActivity(listDoneActivities))
@@ -672,10 +670,8 @@ def setPosition(window, dataset, pos, tempo):
                 window.setPatientImg(True)
                 if "start" in str(otherInfo) or "end" in str(otherInfo):
                     index = str(otherInfo).split('-')[0]
-                    print(index)
                 else:
                     index = str(otherInfo).split(',')[0].split('.')[0]
-                    print(index)
                 activityImage = window.setActivityImg(int(index))
                 info = window.writeMoreInfo("Activity detected: check pop-up window for details.")
                 showinfo("Motion detected", concatenateActivity(listDoneActivities))
@@ -705,7 +701,6 @@ def setPosition(window, dataset, pos, tempo):
                 window.setPatientImg(True)
                 if "start" in str(otherInfo) or "end" in str(otherInfo):
                     index = str(otherInfo).split('-')[0]
-                    print(index)
                 else:
                     index = str(otherInfo).split(',')[0].split('.')[0]
                 activityImage = window.setActivityImg(int(index))
@@ -715,10 +710,8 @@ def setPosition(window, dataset, pos, tempo):
                 window.setPatientImg(True)
                 if "start" in str(otherInfo) or "end" in str(otherInfo):
                     index = str(otherInfo).split('-')[0]
-                    print(index)
                 else:
                     index = str(otherInfo).split(',')[0].split('.')[0]
-                    print(index)
                 activityImage = window.setActivityImg(int(index))
                 info = window.writeMoreInfo("Activity detected: check pop-up window for details.")
                 showinfo("Motion detected", concatenateActivity(listDoneActivities))
@@ -746,10 +739,8 @@ def setPosition(window, dataset, pos, tempo):
                 window.setPatientImg(True)
                 if "start" in str(otherInfo) or "end" in str(otherInfo):
                     index = str(otherInfo).split('-')[0]
-                    print(index)
                 else:
                     index = str(otherInfo).split(',')[0].split('.')[0]
-                    print(index)
                 activityImage = window.setActivityImg(int(index))
                 info = window.writeMoreInfo("Activity detected:\n" + concatenateActivity(listDoneActivities))
 
@@ -757,7 +748,6 @@ def setPosition(window, dataset, pos, tempo):
                 window.setPatientImg(True)
                 if "start" in str(otherInfo) or "end" in str(otherInfo):
                     index = str(otherInfo).split('-')[0]
-                    print(index)
                 else:
                     index = str(otherInfo).split(',')[0].split('.')[0]
                 activityImage = window.setActivityImg(int(index))
